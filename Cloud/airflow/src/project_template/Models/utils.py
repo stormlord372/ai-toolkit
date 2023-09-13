@@ -5,6 +5,7 @@ import mlflow
 import mlflow.sklearn
 from mlflow.tracking.client import MlflowClient
 from urllib.parse import urlparse
+import time
 
 import config
 
@@ -19,7 +20,11 @@ def track_run(run_name: str, estimator_name: str, hyperparams: dict, training_me
     # Auxiliar functions and connection stablishment
     client = MlflowClient(config.MLFLOW_ENDPOINT)
     mlflow.set_tracking_uri(config.MLFLOW_ENDPOINT)
-    mlflow.set_experiment(config.MLFLOW_EXPERIMENT)
+    try:
+        mlflow.set_experiment(config.MLFLOW_EXPERIMENT)
+    except:
+        time.sleep(10)
+        mlflow.set_experiment(config.MLFLOW_EXPERIMENT)
     warnings.filterwarnings('ignore')
 
     mlflow.start_run(

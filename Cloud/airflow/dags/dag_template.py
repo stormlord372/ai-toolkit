@@ -23,7 +23,6 @@ import sys
 sys.path.append("src/project_template/") 
 from Data.read_data import read_data
 from Process.data_processing import data_processing
-from Models.model_tracking_init import model_tracking_init
 from Models.model_training import model_training
 from Deployment.Select_Best_Model import select_best_model
 
@@ -45,12 +44,6 @@ with DAG(
     def data_processing_task(df=None):
         print(f"data processing task:")
         return data_processing(df)
-    
-    @task
-    def model_tracking_init(df=None):
-        print(f"model_tracking_init")
-        model_tracking_init()
-        return df
 
     @task
     def model_training_task(res=None):
@@ -66,9 +59,8 @@ with DAG(
     # Instantiate each task and define task dependencies
     read_data_result = read_data_task()
     processing_result = data_processing_task(read_data_result)
-    model_tracking_init_result = model_tracking_init(processing_result)
-    model_training_result = model_training_task(model_tracking_init_result)
+    model_training_result = model_training_task(processing_result)
     select_best_model_result = select_best_model_task()
 
     # Define the order of the pipeline
-    read_data_result >> processing_result >> model_tracking_init_result >> [model_training_result] >> select_best_model_result
+    read_data_result >> processing_result >> [model_training_result] >> select_best_model_result
