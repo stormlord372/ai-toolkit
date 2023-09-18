@@ -1,6 +1,6 @@
 # MLFLOW MODEL TRACKING
 MLFLOW_ENDPOINT = 'http://mlflow:5000'
-MLFLOW_EXPERIMENT = "Clarus_template_experiment"
+MLFLOW_EXPERIMENT = "Clarus_RedWine_experiment"
 
 # METRIC FOR BEST MODEL
 METRIC_BM = "r2_validation"

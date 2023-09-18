@@ -21,6 +21,13 @@ def data_processing(df: pd.DataFrame) -> Dict[str, Any]:
         A dictionary containing the preprocessed data.
     """
 
-   # ADD YOUR CODE HERE
+    # Train and validation data split
+    train, val = train_test_split(df,random_state = 0,shuffle = False)
 
-    return {}
+    # Extract features and target variables for train and validation data
+    train_x = train.drop(['quality'], axis=1)
+    val_x = val.drop(['quality'], axis=1)
+    train_y = train[['quality']]
+    val_y = val[['quality']]
+
+    return {'train_x': train_x, 'train_y': train_y, 'val_x': val_x, 'val_y': val_y}

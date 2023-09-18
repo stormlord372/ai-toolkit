@@ -20,14 +20,15 @@ from airflow.decorators import task
 import sys
 
 # Import all functions to be used
-sys.path.append("src/project_template/") 
+sys.path.append("src/redWine/") 
 from Data.read_data import read_data
 from Process.data_processing import data_processing
-from Models.model_training import model_training
+from Models.ElasticNet_model_training import elasticNet_model_training
+from Models.SVC_model_training import svc_model_training
 from Deployment.Select_Best_Model import select_best_model
 
 with DAG(
-    'Template_MLOps_lifecycle', # Add the DAG name
+    'RedWine_MLOps_lifecycle', # Add the DAG name
     description='MLOps lifecycle', # Add a description
     schedule_interval='* 12 * * *', 
     catchup=False,
@@ -46,9 +47,14 @@ with DAG(
         return data_processing(df)
 
     @task
-    def model_training_task(res=None):
+    def elasticNet_model_training_task(res=None):
         print(f"ElasticNet model training task train_x: {res}")
-        return model_training(res)
+        return elasticNet_model_training(res)
+
+    @task
+    def svc_model_training_result_task(res=None):
+        print("SVC model training task:")
+        return svc_model_training(res)
     
     @task
     def select_best_model_task():
@@ -59,8 +65,9 @@ with DAG(
     # Instantiate each task and define task dependencies
     read_data_result = read_data_task()
     processing_result = data_processing_task(read_data_result)
-    model_training_result = model_training_task(processing_result)
+    elasticNet_model_training_result = elasticNet_model_training_task(processing_result)
+    svc_model_training_result = svc_model_training_result_task(processing_result)
     select_best_model_result = select_best_model_task()
 
     # Define the order of the pipeline
-    read_data_result >> processing_result >> [model_training_result] >> select_best_model_result
+    read_data_result >> processing_result >> [elasticNet_model_training_result, svc_model_training_result] >> select_best_model_result

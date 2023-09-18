@@ -5,21 +5,19 @@ functions are required to accomplish this step, they can be defined within the s
 scripts and included in the Data directory.
 """
 
-import requests
 import pandas as pd
-import json
-from io import StringIO
-
-import config
 
 def read_data() -> pd.DataFrame:
     """
     The function implements the logic to ingest the data and transform it into a pandas format.
 
+    In this code example, a csv file is retrieved from a url.
+
     Return:
         A Pandas DataFrame representing the content of the specified file.
     """
 
-    # ADD YOUR CODE HERE
-
-    return pd.DataFrame()
+    df = pd.read_csv("https://archive.ics.uci.edu/ml/machine-learning-databases/wine-quality/winequality-red.csv", sep = ';')
+    
+    print(df)
+    return df
