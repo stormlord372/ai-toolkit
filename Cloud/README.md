@@ -57,7 +57,7 @@ The Docker Compose setup is configured in the `docker-compose.yml` file. It defi
 
 ## INSTALLATION AND CONFIGURATION GUIDE
 
-Before starting the installation, make sure you have Docker and Docker Compose installed on your machine.
+Before starting the installation, make sure you have Docker and Docker Compose installed on your machine, following these instructions: https://docs.docker.com/compose/install/linux/ 
 
 1. Move to AI_TOOLKIT
 
@@ -71,15 +71,23 @@ cd AI_TOOLKIT
 3. Build the Docker containers and start the services:
 
 ```
-docker-compose build
-docker-compose up -d
+docker compose build
+docker compose up -d
 ```
 
 4. Wait for the services to start up. You can check the logs for each service to ensure everything is running correctly:
 
 ```
-docker-compose logs -f <service_name>
+docker compose logs -f <service_name>
 ```
+
+In Linux console you should see the following containers running:
+
+![linux console](img/wsl.png)
+
+Whilst in Docker Desktop:
+
+![docker_desktop](img/docker_desktop.png)
 
 5. Once all services are up and running, you can access the following:
 
