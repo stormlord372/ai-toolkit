@@ -81,6 +81,14 @@ docker compose up -d
 docker compose logs -f <service_name>
 ```
 
+In Linux console you should see the following containers running:
+
+![linux console](img/wsl.png)
+
+Whilst in Docker Desktop:
+
+![docker_desktop](img/docker_desktop.png)
+
 5. Once all services are up and running, you can access the following:
 
     * Airflow UI: `http://<Server_IP_or_localhost>:8080`
