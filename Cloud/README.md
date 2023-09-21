@@ -57,7 +57,7 @@ The Docker Compose setup is configured in the `docker-compose.yml` file. It defi
 
 ## INSTALLATION AND CONFIGURATION GUIDE
 
-Before starting the installation, make sure you have Docker and Docker Compose installed on your machine.
+Before starting the installation, make sure you have Docker and Docker Compose installed on your machine, following these instructions: https://docs.docker.com/compose/install/linux/ 
 
 1. Move to AI_TOOLKIT
 
