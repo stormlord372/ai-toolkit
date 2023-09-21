@@ -71,14 +71,14 @@ cd AI_TOOLKIT
 3. Build the Docker containers and start the services:
 
 ```
-docker-compose build
-docker-compose up -d
+docker compose build
+docker compose up -d
 ```
 
 4. Wait for the services to start up. You can check the logs for each service to ensure everything is running correctly:
 
 ```
-docker-compose logs -f <service_name>
+docker compose logs -f <service_name>
 ```
 
 5. Once all services are up and running, you can access the following:
