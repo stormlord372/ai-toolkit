@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    io.kompose.service: {{ .Values.mlflow.name }}
+  name: {{ .Values.mlflow.name }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: {{ .Values.mlflow.name }}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.network/network-mlops: "true"
+        io.kompose.service: {{ .Values.mlflow.name }}
+    spec:
+      containers:
+        - name: {{ .Values.mlflow.name }}
+          image: {{ .Values.mlflow.image.repository }}:{{ .Values.mlflow.image.tag }}
+          ports:
+            - containerPort: {{ .Values.mlflow.host.port }}
+          env:
+            - name: AWS_ACCESS_KEY_ID
+              value: {{ .Values.mlflow.env.accessKeyId }}
+            - name: AWS_SECRET_ACCESS_KEY
+              value: {{ .Values.mlflow.env.secretAccessKey }}
+            - name: AWS_DEFAULT_REGION
+              value: {{ .Values.mlflow.env.experiment }}
+            - name: MLFLOW_S3_ENDPOINT_URL
+              value: {{ .Values.mlflow.env.path }}
+            - name: MLFLOW_TRACKING_USERNAME
+              value: {{ .Values.mlflow.env.s3EndpointUrl }}
+            - name: MLFLOW_TRACKING_PASSWORD
+              value: {{ .Values.mlflow.env.s3EndpointUrl }}
+            - name: MLFLOW_EXPERIMENT_DELETE_ENABLED
+              value: {{ .Values.mlflow.env.s3EndpointUrl }}
+          command:
+            - "{{ .Values.mlflow.command }}"
+

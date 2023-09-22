@@ -1,0 +1,77 @@
+# SERVER
+server:
+  host: cigipdell08.cigip.upv.es
+  protocol: http
+
+airflow:
+  name: airflow
+  image: apache/airflow:2.3.0
+  imagePullPolicy: ""
+  restartPolicy: Always
+  host:
+    name: "381"
+    port: 381
+    targetPort: 381
+    type: ClusterIP # TCP?
+  env:
+    AIRFLOW__CORE__EXECUTOR: AWS_ACCESS_KEY_ID
+    AIRFLOW__CORE__ENABLE_XCOM_PICKLING: AWS_SECRET_ACCESS_KEY
+    AWS_ACCESS_KEY_ID: MLFLOW_EXPERIMENT
+    AWS_SECRET_ACCESS_KEY: MLFLOW_PATH
+    MLFLOW_S3_ENDPOINT_URL: MLFLOW_S3_ENDPOINT_URL
+  volume:
+    path: /opt/airflow/
+  entrypoint: /bin/bash
+  networks:
+    - network_mlops
+  command:
+    - -c
+    - |
+      mkdir -p /sources/logs /sources/dags /sources/plugins /sources/src
+      chown -R "${AIRFLOW_UID}:0" /sources/{logs,dags,plugins,src}
+      exec /entrypoint airflow version
+
+webserver:
+  name: webserver
+  image:
+    repository: mi-repositorio/webserver
+    tag: latest
+  containerName: airflow-webserver
+  environment:
+    - IP_CONNECTOR: ${IP_CONNECTOR}
+    - PORT_CONNECTOR: ${PORT_CONNECTOR}
+  host:
+    - name: http
+      port: 8080
+      targetPort: 8080
+  healthcheck:
+    path: /health
+    port: 8080
+
+mlflow:
+  name: mlflow
+  image:
+    repository: local_mlflow
+    tag: latest
+  containerName: local_mlflow
+  host:
+    - name: http
+      port: 5000
+      targetPort: 5000
+  env:
+    - AWS_ACCESS_KEY_ID: ${MINIO_USER}
+    - AWS_SECRET_ACCESS_KEY: ${MINIO_PASS}
+    - AWS_DEFAULT_REGION: us-east-1
+    - MLFLOW_S3_ENDPOINT_URL: ${MINIO_ENDPOINT}
+    - MLFLOW_TRACKING_USERNAME: ${MLFLOW_TRACKING_USERNAME}
+    - MLFLOW_TRACKING_PASSWORD: ${MLFLOW_TRACKING_PASSWORD}
+    - MLFLOW_EXPERIMENT_DELETE_ENABLED: "true"
+  command: mlflow server --backend-store-uri postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:${POSTGRES_PORT}/${POSTGRES_DATABASE} --default-artifact-root s3://${MINIO_FIRST_BUCKET} --host 0.0.0.0
+
+# Secrets ----------------------------------------------------
+defaultSettings:
+  registrySecret: clarusRegistry
+privateRegistry:
+  registryUrl: ""
+  registryUser: ""
+  registryPasswd: ""

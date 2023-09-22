@@ -1,0 +1,8 @@
+name: MLopsEdge
+description: This document provides a guide on setting up the MLOps Edge architecture to carried out the model inference. It covers the steps required to deploy the architecture and offers some instructions on how to use it
+version: 1.0
+apiVersion: v2
+keywords:
+  - charts
+sources:
+home:

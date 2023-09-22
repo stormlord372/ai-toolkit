@@ -1,0 +1,16 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  creationTimestamp: null
+  labels:
+    io.kompose.service: {{ .Values.webserver.name }}
+  name: {{ .Values.webserver.name }}
+spec:
+  ports:
+  - name: {{ .Values.webserver.host.name }}
+    port: {{ .Values.webserver.host.port }}
+    targetPort: {{ .Values.webserver.host.port }}
+  selector:
+    io.kompose.service:  {{ .Values.webserver.name }}
+status:
+  loadBalancer: {}

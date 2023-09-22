@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    volume: {{ .Values.airflow.name }}-pvc
+  namespace: {{ .Release.Namespace }}
+  name: {{ .Values.airflow.name }}-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: ""
+  volumeName: {{ .Values.airflow.name }}-pv
+status: {}

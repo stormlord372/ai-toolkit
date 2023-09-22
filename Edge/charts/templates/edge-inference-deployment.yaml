@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    io.kompose.service: edge-inference
+  name: edge-inference
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: {{ .Values.edge.name }}
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.network/network-mlops: "true"
+        io.kompose.service: {{ .Values.edge.name }}
+    spec:
+      containers:
+        - env:
+            - name: AWS_ACCESS_KEY_ID
+              value: {{ .Values.edge.aws.AWS_ACCESS_KEY_ID }}
+            - name: AWS_SECRET_ACCESS_KEY
+              value: {{ .Values.edge.aws.AWS_SECRET_ACCESS_KEY }}
+            - name: MLFLOW_EXPERIMENT
+              value: {{ .Values.edge.aws.MLFLOW_EXPERIMENT }}
+            - name: MLFLOW_PATH
+              value: {{ .Values.edge.aws.MLFLOW_PATH }}
+            - name: MLFLOW_S3_ENDPOINT_URL
+              value: {{ .Values.edge.aws.MLFLOW_S3_ENDPOINT_URL }}
+          image: {{ .Values.edge.image }}
+          name: {{ .Values.edge.name }}
+          ports:
+            - containerPort: {{ .Values.edge.host.port }}
+              hostPort: {{ .Values.edge.host.targetPort }}
+              protocol: {{ .Values.edge.host.type }}
+          resources: {}
+      hostname: {{ .Values.edge.name }}
+      imagePullSecrets:
+        - name: {{ .Values.defaultSettings.registrySecret }}
+      restartPolicy: Always
+status: {}

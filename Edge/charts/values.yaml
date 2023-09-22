@@ -1,0 +1,31 @@
+# SERVER
+server:
+  host: cigipdell08.cigip.upv.es
+  protocol: http
+
+edge:
+  name: edge-inference
+  image: edge_inference
+  imagePullPolicy: ""
+  restartPolicy: Always
+  host:
+    name: "381"
+    port: 381
+    targetPort: 381
+    type: ClusterIP # TCP?
+  aws:
+    AWS_ACCESS_KEY_ID: AWS_ACCESS_KEY_ID
+    AWS_SECRET_ACCESS_KEY: AWS_SECRET_ACCESS_KEY
+    MLFLOW_EXPERIMENT: MLFLOW_EXPERIMENT
+    MLFLOW_PATH: MLFLOW_PATH
+    MLFLOW_S3_ENDPOINT_URL: MLFLOW_S3_ENDPOINT_URL
+
+
+
+# Secrets ----------------------------------------------------
+defaultSettings:
+  registrySecret: clarusRegistry
+privateRegistry:
+  registryUrl: ""
+  registryUser: ""
+  registryPasswd: ""

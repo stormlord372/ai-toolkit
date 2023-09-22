@@ -1,0 +1,84 @@
+questions:
+# SERVER ---------------------
+- variable: server.host
+  label: Protocol
+  description: "DNS server"
+  group: "Integration and deployment parameters"
+  type: string
+  default: "localhost"
+  required: true
+- variable: server.protocol
+  label: Protocol
+  description: "Protocol (either http or https)"
+  group: "Integration and deployment parameters"
+  type: enum
+  default: "http"
+  options: ["http", "https"]
+  required: true
+# Edge-instance ---------------
+- variable: aws.AWS_ACCESS_KEY_ID
+  label: "AWS Cofiguration"
+  description: "AWS_ACCESS_KEY_ID"
+  group: "Edge-instance Configuration"
+  type: string
+  default: "AWS_ACCESS_KEY_ID"
+  required: true
+- variable: aws.AWS_SECRET_ACCESS_KEY
+  label: "AWS Cofiguration"
+  description: "AWS_SECRET_ACCESS_KEY"
+  group: "Edge-instance Configuration"
+  type: string
+  default: "AWS_SECRET_ACCESS_KEY"
+  required: true
+- variable: aws.MLFLOW_EXPERIMENT
+  label: "MLFLOW Cofiguration"
+  description: "MLFLOW_EXPERIMENT"
+  group: "Edge-instance Configuration"
+  type: string
+  default: "MLFLOW_EXPERIMENT"
+  required: true
+- variable: aws.MLFLOW_PATH
+  label: "MLFLOW Cofiguration"
+  description: "MLFLOW_PATH"
+  group: "Edge-instance Configuration"
+  type: string
+  default: "MLFLOW_PATH"
+  required: true
+- variable: aws.MLFLOW_S3_ENDPOINT_URL
+  label: "MLFLOW Cofiguration"
+  description: "MLFLOW_S3_ENDPOINT_URL"
+  group: "Edge-instance Configuration"
+  type: string
+  default: "MLFLOW_S3_ENDPOINT_URL"
+  required: true
+
+# Secrets ----------------------------------------------------
+- variable: privateRegistry.registryUrl
+  label: Private registry URL
+  description: "URL of private registry"
+  group: "Private Registry Settings"
+  type: string
+  default: "registry.gitlab.com"
+  required: true
+- variable: privateRegistry.registryUser
+  label: Private registry user
+  description: "User used to authenticate to private registry"
+  group: "Private Registry Settings"
+  type: string
+  default: ""
+  required: true
+- variable: privateRegistry.registryPasswd
+  label: Private registry password
+  description: "Password used to authenticate to private registry"
+  group: "Private Registry Settings"
+  type: password
+  default: ""
+  required: true
+- variable: defaultSettings.registrySecret
+  label: Private registry secret
+  description: "The Kubernetes Secret name"
+  group: "Private Registry Settings"
+  type: string
+  default: "clarusRegistry"
+  required: true
+

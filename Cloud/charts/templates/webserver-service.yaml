@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    io.kompose.service: {{ .Values.webserver.name }}
+  name: {{ .Values.webserver.name }}
+spec:
+  ports:
+    - name: http
+      port: {{ .Values.webserver.host.port }}
+      targetPort: {{ .Values.webserver.host.targetPort }}
+  selector:
+    io.kompose.service: {{ .Values.airflow.name }}
+status:
+  loadBalancer: {}

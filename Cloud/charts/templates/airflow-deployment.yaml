@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    io.kompose.service: {{ .Values.airflow.name }}
+  name: {{ .Values.airflow.name }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: {{ .Values.airflow.name }}
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.network/network-mlops: "true"
+        io.kompose.service: {{ .Values.airflow.name }}
+    spec:
+      containers:
+        - env:
+            - name: AIRFLOW__CORE__EXECUTOR
+              value: {{ .Values.airflow.env.AWS_ACCESS_KEY_ID }}
+            - name: AIRFLOW__CORE__ENABLE_XCOM_PICKLING
+              value: {{ .Values.airflow.env.AWS_SECRET_ACCESS_KEY }}
+            - name: AWS_ACCESS_KEY_ID
+              value: {{ .Values.airflow.env.MLFLOW_EXPERIMENT }}
+            - name: AWS_SECRET_ACCESS_KEY
+              value: {{ .Values.airflow.env.MLFLOW_PATH }}
+            - name: MLFLOW_S3_ENDPOINT_URL
+              value: {{ .Values.airflow.env.MLFLOW_S3_ENDPOINT_URL }}
+          image: {{ .Values.edge.image }}
+          name: {{ .Values.edge.name }}
+          ports:
+            - containerPort: {{ .Values.airflow.host.port }}
+              hostPort: {{ .Values.airflow.host.targetPort }}
+              protocol: {{ .Values.airflow.host.type }}
+          resources: {}
+          volumeMounts:
+            - mountPath: {{ .Values.airflow.volume.path }}
+              name: {{ .Values.airflow.name }}-pvc
+          command:
+            - {{ .Values.airflow.entrypoint }}
+          args:
+            - {{ .Values.airflow.command | join " "}}
+      hostname: {{ .Values.edge.name }}
+      imagePullSecrets:
+        - name: {{ .Values.defaultSettings.registrySecret }}
+      restartPolicy: Always
+      volumes:
+        - name: {{ .Values.airflow.name }}-pvc
+          persistentVolumeClaim:
+            claimName: {{ .Values.airflow.name }}-pvc
+status: {}
