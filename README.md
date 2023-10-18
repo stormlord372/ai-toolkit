@@ -18,3 +18,8 @@ git clone <repository_url>
 2. Build and start the docker compose of the **Cloud** project following the instrucctions given in the [README.md](Cloud/README.md) of `Cloud` directory.
 
 3. Build and start the docker compose of the **Edge** project following the instrucctions given in the [README.md](Edge/README.md) of `Edge` directory.
+
+**(optional) Integration with IDS**
+
+4. Clone the source code from the [clarus_edge_deploy](https://github.com/CLARUS-HE-Project/true-connector-trainning/tree/master) repository and follow the instrucctions given in the [README.md](https://github.com/CLARUS-HE-Project/clarus_edge_deploy/blob/master/README.md)
+5. Clone the source code from the [true-connector-trainning](https://github.com/CLARUS-HE-Project/clarus_edge_deploy) repository and follow the instrucctions given in the [README.md](https://github.com/CLARUS-HE-Project/true-connector-trainning/blob/master/README.md)
