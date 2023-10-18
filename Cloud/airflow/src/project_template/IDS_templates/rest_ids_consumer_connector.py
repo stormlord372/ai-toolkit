@@ -3,7 +3,7 @@ import requests
 
 
 from typing import Any, Optional
-from Data.log import logger
+from IDS_templates.log import logger
 from io import StringIO
 
 
@@ -54,6 +54,8 @@ class RestIDSConsumerConnector:
         else:
             return True
 
+    
+    
     def get_external_artifact_by_resource_title(self, resource_title,provider_ip,provider_port,trainning_dataapp_ip, trainning_dataapp_port):
         
         #Get resource with expected title
@@ -103,6 +105,7 @@ class RestIDSConsumerConnector:
         logger.info ('artifact_data downloaded ')
         return artifact_data
     
+    
     def create_body_post_request_resources(self,provider_ip,provider_port):
 
 
@@ -122,6 +125,7 @@ class RestIDSConsumerConnector:
             found = False
             # resource = '{ "ids:version": "1.0.0","@id": "https://w3id.org/idsa/autogen/textResource/1f047b05-e32c-4d55-8415-88892860a928","ids:title": [{"@value": "Wine Exp","@type": "http://www.w3.org/2001/XMLSchema#string"}]}'
             for resource in resources:
+                #title = self.buscar_elemento_en_json(resource,"ids:title")
                 title = resource["ids:title"]
                 if title is not None:
                     if modelId in title[0]["@value"]:

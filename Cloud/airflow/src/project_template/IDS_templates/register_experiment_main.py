@@ -27,7 +27,7 @@ def handle_post(filename, description, ids_ip):
         "catalog": catalog,
     }
 
-    with open('src/redWine/Deployment/json/offeredResource_template.json', 'r') as template:
+    with open('src/redWine/IDS_templates/json/offeredResource_template.json', 'r') as template:
         offeredResource_template = json.load(template)
 
     new_path = 'mlflow:' + filename

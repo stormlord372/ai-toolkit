@@ -25,6 +25,7 @@ from Data.read_data import read_data
 from Process.data_processing import data_processing
 from Models.model_training import model_training
 from Deployment.Select_Best_Model import select_best_model
+# from Deployment.register_experiment import register_experiment
 
 with DAG(
     'Template_MLOps_lifecycle', # Add the DAG name
@@ -55,12 +56,18 @@ with DAG(
         print("Selection of the best model task:")
         return select_best_model()
     
+    # @task
+    # def register_experiment_task():
+    #     print("Register experiment task:")
+    #     return register_experiment()
+    
 
     # Instantiate each task and define task dependencies
     read_data_result = read_data_task()
     processing_result = data_processing_task(read_data_result)
     model_training_result = model_training_task(processing_result)
     select_best_model_result = select_best_model_task()
+    # register_experiment_result = register_experiment_task()
 
     # Define the order of the pipeline
-    read_data_result >> processing_result >> [model_training_result] >> select_best_model_result
+    read_data_result >> processing_result >> [model_training_result] >> select_best_model_result #>> register_experiment_result

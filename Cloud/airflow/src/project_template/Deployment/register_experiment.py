@@ -6,8 +6,8 @@ directory.
 """
 
 import config
-from Deployment.main import handle_post
-from Data.rest_ids_consumer_connector import RestIDSConsumerConnector
+from IDS_templates.register_experiment_main import handle_post
+from IDS_templates.rest_ids_consumer_connector import RestIDSConsumerConnector
 
 def register_experiment():
     """

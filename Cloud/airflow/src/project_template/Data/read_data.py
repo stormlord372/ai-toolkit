@@ -11,6 +11,7 @@ import json
 from io import StringIO
 
 import config
+# from IDS_templates.rest_ids_consumer_connector import RestIDSConsumerConnector
 
 def read_data() -> pd.DataFrame:
     """
@@ -19,6 +20,16 @@ def read_data() -> pd.DataFrame:
     Return:
         A Pandas DataFrame representing the content of the specified file.
     """
+
+    # READ DATA FROM IDS
+    # ids_consumer = RestIDSConsumerConnector()
+    # data = ids_consumer.get_external_artifact_by_resource_title(
+    #     config.MLFLOW_EXPERIMENT, 
+    #     config.TRUE_CONNECTOR_EDGE_IP, 
+    #     config.TRUE_CONNECTOR_EDGE_PORT, 
+    #     config.TRUE_CONNECTOR_CLOUD_IP, 
+    #     config.TRUE_CONNECTOR_CLOUD_PORT
+    # )
 
     # ADD YOUR CODE HERE
 
